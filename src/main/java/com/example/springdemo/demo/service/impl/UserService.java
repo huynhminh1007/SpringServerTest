@@ -2,7 +2,6 @@ package com.example.springdemo.demo.service.impl;
 
 import com.example.springdemo.demo.dto.UserDTO;
 import com.example.springdemo.demo.entity.User;
-import com.example.springdemo.demo.exception.ResourceNotFoundException;
 import com.example.springdemo.demo.exception.user.UserNotFoundException;
 import com.example.springdemo.demo.mapper.UserMapper;
 import com.example.springdemo.demo.repository.UserRepository;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -25,7 +23,7 @@ public class UserService implements IUserService {
     private UserMapper userMapper;
 
     @Override
-    public UserDTO findById(Integer id) {
+    public UserDTO findById(int id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException());
         return userMapper.toUserDTO(user);
@@ -49,7 +47,7 @@ public class UserService implements IUserService {
         return userMapper.toUserDTOList(userPage.getContent());
     }
 
-    public void delete(Integer id) {
+    public void delete(int id) {
         userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException());
         userRepository.deleteById(id);

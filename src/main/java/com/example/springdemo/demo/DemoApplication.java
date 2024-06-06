@@ -1,5 +1,8 @@
 package com.example.springdemo.demo;
 
+import com.example.springdemo.demo.controller.UserController;
+import com.example.springdemo.demo.dto.UserDTO;
+import com.example.springdemo.demo.entity.User;
 import com.example.springdemo.demo.service.impl.UserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

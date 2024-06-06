@@ -3,6 +3,7 @@ package com.example.springdemo.demo.mapper;
 import com.example.springdemo.demo.dto.UserDTO;
 import com.example.springdemo.demo.entity.User;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
