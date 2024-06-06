@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +20,14 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{email}")
-    public ApiResponse<UserDTO> findUserByEmail(@PathVariable @Email String email) {
+    public ResponseEntity<ApiResponse<UserDTO>> findUserByEmail(@PathVariable @Email String email) {
         UserDTO userDTO = userService.findByEmail(email);
-        return new ApiResponse<>(HttpStatus.OK.value(), userDTO);
+        return ResponseEntity.ok(new ApiResponse<>(userDTO));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable Integer id) {
+        userService.delete(id);
+        return ResponseEntity.ok(new ApiResponse("User deleted successfully"));
     }
 }

@@ -2,7 +2,6 @@ package com.example.springdemo.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -10,17 +9,14 @@ import lombok.Data;
 @AllArgsConstructor
 public class ApiResponse <T> {
 
-    private int status;
     private String message;
     private T data;
 
-    public ApiResponse(int status, String message) {
-        this.status = status;
-        this.message = message;
+    public ApiResponse(T data) {
+        this.data = data;
     }
 
-    public ApiResponse(int status, T data) {
-        this.status = status;
-        this.data = data;
+    public ApiResponse(String message) {
+        this.message = message;
     }
 }

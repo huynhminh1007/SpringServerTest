@@ -3,6 +3,7 @@ package com.example.springdemo.demo.service.impl;
 import com.example.springdemo.demo.dto.UserDTO;
 import com.example.springdemo.demo.entity.User;
 import com.example.springdemo.demo.exception.ResourceNotFoundException;
+import com.example.springdemo.demo.exception.user.UserNotFoundException;
 import com.example.springdemo.demo.mapper.UserMapper;
 import com.example.springdemo.demo.repository.UserRepository;
 import com.example.springdemo.demo.service.IUserService;
@@ -26,14 +27,14 @@ public class UserService implements IUserService {
     @Override
     public UserDTO findById(Integer id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new UserNotFoundException());
         return userMapper.toUserDTO(user);
     }
 
     @Override
     public UserDTO findByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new UserNotFoundException());
         return userMapper.toUserDTO(user);
     }
 
@@ -46,5 +47,11 @@ public class UserService implements IUserService {
     public List<UserDTO> findAll(Pageable pageable) {
         Page<User> userPage = userRepository.findAll(pageable);
         return userMapper.toUserDTOList(userPage.getContent());
+    }
+
+    public void delete(Integer id) {
+        userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
+        userRepository.deleteById(id);
     }
 }
