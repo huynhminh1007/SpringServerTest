@@ -33,15 +33,16 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(userDTO));
     }
 
-    @GetMapping("/{page}")
+    @GetMapping
     public ResponseEntity<ApiResponse<List<UserDTO>>> findUserList(
-            @PathVariable("page") Integer page,
+            @RequestParam(defaultValue = "0", required = false) int page,
             @RequestParam(defaultValue = "1", required = false) int size,
             @RequestParam(defaultValue = "id", required = false) String orderBy,
             @RequestParam(defaultValue = "asc", required = false) String orderDir) {
 
         Pageable pageable = PageRequest.of(page, size,
                 Sort.by(new Sort.Order(Sort.Direction.fromString(orderDir), orderBy)));
+
         return ResponseEntity.ok(new ApiResponse<>(userService.findAll(pageable)));
     }
 
