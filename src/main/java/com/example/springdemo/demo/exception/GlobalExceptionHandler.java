@@ -15,11 +15,13 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
-        return new ResponseEntity<>(
-                new ApiErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()),
-                HttpStatus.NOT_FOUND);
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<ApiErrorResponse> handleAppException(AppException e) {
+        CodeException code = e.getCodeException();
+
+        return ResponseEntity
+                .status(code.getHttpStatusCode())
+                .body(new ApiErrorResponse(code.getCode(), code.getMessage()));
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})

@@ -2,6 +2,8 @@ package com.example.springdemo.demo.service.impl;
 
 import com.example.springdemo.demo.dto.UserDTO;
 import com.example.springdemo.demo.entity.User;
+import com.example.springdemo.demo.exception.AppException;
+import com.example.springdemo.demo.exception.CodeException;
 import com.example.springdemo.demo.exception.user.UserNotFoundException;
 import com.example.springdemo.demo.mapper.UserMapper;
 import com.example.springdemo.demo.repository.UserRepository;
@@ -25,14 +27,14 @@ public class UserService implements IUserService {
     @Override
     public UserDTO findById(int id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(CodeException.USER_NOT_FOUND::throwException);
         return userMapper.toUserDTO(user);
     }
 
     @Override
     public UserDTO findByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(CodeException.USER_NOT_FOUND::throwException);
         return userMapper.toUserDTO(user);
     }
 
@@ -49,7 +51,7 @@ public class UserService implements IUserService {
 
     public void delete(int id) {
         userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(CodeException.USER_NOT_FOUND::throwException);
         userRepository.deleteById(id);
     }
 }
